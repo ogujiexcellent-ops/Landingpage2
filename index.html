@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How EEM26 Students Built Their Digital Product Business on Selar</title>
+<meta property="og:title" content="How EEM26 Students Built Their Digital Product Business on Selar">
+<meta property="og:description" content="Real students. Real results. Free training this Sunday 8:00PM — see how they built their digital product business and secure your spot.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Figtree:wght@400;600;700;900&display=swap" rel="stylesheet">
+<!-- Facebook Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','2731812790545232');
+fbq('track','PageView');
+fbq('track','ViewContent');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2731812790545232&ev=PageView&noscript=1"/></noscript>
+<!-- End Facebook Pixel -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#F5A623;
+  --gold2:#FFD700;
+  --green:#22C55E;
+  --dark:#06060A;
+  --card:#0E0E14;
+  --card2:#12121A;
+  --border:#1E1E2E;
+  --white:#fff;
+  --muted:#7A7A9A;
+  --accent:#6C63FF;
+  --accent2:#4F46E5;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--white);font-family:'Figtree',sans-serif;overflow-x:hidden}
+
+/* TICKER */
+.ticker-bar{background:linear-gradient(90deg,#1a1040,#0d0d1a,#1a1040);border-bottom:1px solid var(--border);padding:10px 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-block;animation:tick 28s linear infinite;font-size:.82rem;letter-spacing:2px;color:var(--gold);font-weight:700}
+@keyframes tick{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(6,6,10,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+.nav-logo{font-family:'Bebas Neue',cursive;font-size:1.3rem;color:var(--gold);letter-spacing:2px;cursor:default;user-select:none}
+.nav-cta{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:900;font-size:.78rem;letter-spacing:.5px;padding:10px 18px;border-radius:6px;text-decoration:none;transition:opacity .15s;display:flex;align-items:center;gap:6px;box-shadow:0 4px 16px rgba(108,99,255,.3)}
+.nav-cta:hover{opacity:.88}
+
+/* HERO */
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;background:radial-gradient(ellipse 90% 70% at 50% 0%,#0d0a2a 0%,transparent 65%),var(--dark);position:relative;overflow:hidden}
+.hero-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(108,99,255,.08) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.hero-glow{position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,.1) 0%,transparent 70%);pointer-events:none}
+.live-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:var(--green);font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:20px;margin-bottom:28px}
+.live-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.hero h1{font-family:'Bebas Neue',cursive;font-size:clamp(2.8rem,11vw,7rem);line-height:.93;letter-spacing:1px;margin-bottom:20px}
+.hero h1 em{color:var(--gold);font-style:normal;display:block}
+.hero h1 span{color:var(--accent);font-style:normal}
+.hero-sub{font-size:clamp(.92rem,2.3vw,1.1rem);font-weight:600;color:var(--muted);max-width:520px;margin:0 auto 32px;line-height:1.65}
+
+/* STATS ROW */
+.stats-row{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:36px}
+.stat-pill{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 18px;text-align:center;min-width:110px}
+.stat-pill strong{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--gold);display:block;line-height:1}
+.stat-pill span{font-size:.62rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+
+/* CTA BUTTON */
+.cta-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#22C55E,#16A34A);color:#fff;font-weight:900;font-size:1.05rem;padding:20px 38px;border-radius:8px;text-decoration:none;box-shadow:0 0 40px rgba(34,197,94,.25);animation:btnGlow 2.8s ease-in-out infinite;transition:transform .15s;border:none;cursor:pointer;font-family:'Figtree',sans-serif}
+.cta-btn:hover{transform:translateY(-2px)}
+@keyframes btnGlow{0%,100%{box-shadow:0 0 40px rgba(34,197,94,.25)}50%{box-shadow:0 0 65px rgba(34,197,94,.5)}}
+.cta-btn svg{flex-shrink:0}
+.cta-note{margin-top:10px;font-size:.75rem;color:var(--muted);letter-spacing:.5px}
+
+/* SLOTS URGENCY BAR */
+.slots-bar{background:linear-gradient(135deg,#0d0a2a,#130d35);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:32px 20px;text-align:center}
+.slots-inner{max-width:480px;margin:0 auto}
+.slots-label{font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#f87171;margin-bottom:16px}
+.slots-track-wrap{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.slots-track{flex:1;height:10px;background:rgba(255,255,255,.1);border-radius:20px;overflow:hidden}
+.slots-fill{height:100%;width:78%;background:linear-gradient(90deg,#f87171,#ef4444);border-radius:20px}
+.slots-pct{font-size:.78rem;font-weight:700;color:#f87171;white-space:nowrap}
+.slots-count{font-family:'Bebas Neue',cursive;font-size:1.6rem;color:var(--white);letter-spacing:1px;margin-bottom:6px}
+.slots-count strong{color:var(--gold)}
+.slots-sub{font-size:.78rem;color:var(--muted);line-height:1.5}
+
+/* SECTION LAYOUT */
+.section{padding:70px 20px;max-width:760px;margin:0 auto}
+.section-tag{font-size:.68rem;font-weight:700;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:8px}
+.section-title{font-family:'Bebas Neue',cursive;font-size:clamp(1.9rem,7vw,3.4rem);line-height:1;margin-bottom:28px}
+.section-title span{color:var(--gold)}
+.divider{width:48px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;margin-bottom:18px}
+
+/* PROOF STRIP - dashboard screenshots simulated */
+.proof-strip{background:var(--card2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:56px 20px}
+.proof-inner{max-width:760px;margin:0 auto}
+
+/* STUDENT PROOF CARDS */
+.proof-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px}
+.proof-card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.student-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;flex-shrink:0}
+.student-info h4{font-size:.92rem;font-weight:700;margin-bottom:2px}
+.student-info span{font-size:.72rem;color:var(--muted)}
+.proof-card-body{padding:20px}
+.story-text{font-size:.9rem;line-height:1.7;color:#bbb;margin-bottom:18px}
+.dashboard-sim{background:#f8f8ff;border-radius:10px;padding:18px 20px;color:#1a1a3a}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.dash-logo{font-weight:900;font-size:1rem;color:#7c3aed;font-style:italic}
+.dash-btn{background:#7c3aed;color:#fff;font-size:.68rem;font-weight:700;padding:6px 12px;border-radius:5px;letter-spacing:.5px}
+.wallet-amount{font-size:1.6rem;font-weight:900;color:#1a1a3a;margin-bottom:2px}
+.wallet-label{font-size:.72rem;color:#888}
+.dash-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:14px}
+.dash-stat{background:#f0eeff;border-radius:8px;padding:12px 14px}
+.dash-stat-val{font-size:1.1rem;font-weight:900;color:#3730a3}
+.dash-stat-label{font-size:.65rem;color:#666;margin-top:2px}
+.proof-card-footer{padding:14px 20px;border-top:1px solid var(--border);font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+
+/* VIDEO SECTION */
+.video-section{padding:60px 20px;max-width:760px;margin:0 auto}
+.video-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:24px}
+.video-caption-top{padding:18px 20px 14px;border-bottom:1px solid var(--border)}
+.video-caption-top .caption-label{font-size:.65rem;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:6px}
+.video-caption-top h3{font-size:1rem;font-weight:700;line-height:1.4;color:var(--white)}
+.video-caption-top p{font-size:.82rem;color:var(--muted);margin-top:4px;line-height:1.5}
+.video-frame{position:relative;aspect-ratio:9/16;max-height:520px}
+.video-frame iframe{width:100%;height:100%;border:none;display:block}
+
+/* PROOF IMAGES */
+.proof-img-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.proof-img-wrap img{width:100%;border-radius:10px;border:1px solid var(--border);display:block}
+@media(max-width:480px){.proof-img-wrap{grid-template-columns:1fr}}
+
+/* TESTIMONIAL CARDS */
+.testi-section{background:var(--card2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:60px 20px}
+.testi-inner{max-width:760px;margin:0 auto}
+.testi-grid{display:grid;gap:14px;margin-top:28px}
+.testi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px;position:relative}
+.testi-card::before{content:'"';font-family:'Bebas Neue',cursive;font-size:4.5rem;color:var(--accent);position:absolute;top:-10px;left:16px;line-height:1;opacity:.4}
+.testi-text{font-size:.9rem;line-height:1.7;color:#ccc;padding-top:10px}
+.testi-footer{display:flex;align-items:center;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.testi-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem;flex-shrink:0}
+.testi-name{font-weight:700;font-size:.82rem;color:var(--white)}
+.testi-meta{font-size:.7rem;color:var(--muted)}
+.testi-stars{color:var(--gold);font-size:.82rem;margin-bottom:2px}
+
+/* WHAT YOU LEARN */
+.learn-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.learn-list li{display:flex;align-items:flex-start;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px 18px;font-size:.92rem;font-weight:600;line-height:1.5;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.learn-list li.visible{opacity:1;transform:none}
+.check-icon{width:22px;height:22px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:.75rem;color:var(--green)}
+
+/* FOR WHO GRID */
+.for-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;margin-top:24px}
+.for-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 16px;font-size:.88rem;font-weight:600;line-height:1.5;text-align:center;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.for-card.visible{opacity:1;transform:none}
+.for-card .ic{font-size:1.8rem;margin-bottom:10px;display:block}
+
+/* URGENCY */
+.urgency-bar{background:linear-gradient(90deg,#0a0010,#1a0030,#0a0010);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:24px 20px;text-align:center}
+.urgency-bar p{font-family:'Bebas Neue',cursive;font-size:clamp(1.2rem,4.5vw,1.9rem);letter-spacing:2px;color:var(--white)}
+.urgency-bar span{color:var(--gold)}
+
+/* FINAL CTA */
+.final-cta{padding:90px 20px;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% 100%,#0a0a1f 0%,transparent 70%)}
+.final-cta h2{font-family:'Bebas Neue',cursive;font-size:clamp(2.2rem,9vw,5rem);line-height:.95;margin-bottom:22px}
+.final-cta h2 span{color:var(--gold)}
+.final-sub{color:var(--muted);max-width:460px;margin:0 auto 36px;font-size:.93rem;line-height:1.65}
+
+/* FLOATING BUTTON */
+.float-btn{
+  position:fixed;bottom:24px;right:20px;z-index:200;
+  background:linear-gradient(135deg,#22C55E,#16A34A);color:#fff;
+  display:flex;align-items:center;gap:8px;
+  padding:14px 22px;border-radius:50px;
+  font-weight:900;font-size:.88rem;
+  text-decoration:none;
+  box-shadow:0 6px 30px rgba(34,197,94,.4);
+  animation:floatPulse 2.5s ease-in-out infinite;
+  transition:transform .15s;
+}
+.float-btn:hover{transform:scale(1.04)}
+@keyframes floatPulse{0%,100%{box-shadow:0 6px 30px rgba(34,197,94,.4)}50%{box-shadow:0 6px 50px rgba(34,197,94,.7)}}
+
+/* FOOTER */
+footer{background:#000;text-align:center;padding:18px;font-size:.7rem;color:#333;letter-spacing:1px}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+
+/* ADMIN PANEL */
+#admin-panel{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+#admin-panel.open{display:flex}
+.admin-box{background:#0e0e14;border:1px solid #2a2a3a;border-radius:16px;padding:36px 28px;width:90%;max-width:480px}
+.admin-box h3{font-family:'Bebas Neue',cursive;font-size:1.8rem;color:var(--gold);margin-bottom:6px}
+.admin-box p{font-size:.85rem;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.admin-box label{font-size:.78rem;font-weight:700;letter-spacing:1px;color:#aaa;display:block;margin-bottom:8px}
+.admin-box input{width:100%;background:#1a1a2a;border:1px solid #2a2a3a;border-radius:6px;color:#fff;font-size:.9rem;padding:13px 16px;font-family:'Figtree',sans-serif;margin-bottom:16px;outline:none;transition:border-color .2s}
+.admin-box input:focus{border-color:var(--accent)}
+.admin-save{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-weight:900;font-size:1rem;padding:15px;border-radius:6px;cursor:pointer;font-family:'Figtree',sans-serif;transition:opacity .15s}
+.admin-save:hover{opacity:.88}
+.admin-close{width:100%;background:transparent;color:#555;border:none;font-size:.85rem;padding:10px;cursor:pointer;margin-top:6px;font-family:'Figtree',sans-serif}
+.admin-close:hover{color:#aaa}
+.admin-status{font-size:.82rem;color:var(--green);text-align:center;min-height:20px;margin-top:4px;font-weight:700}
+#pwd-screen{display:flex;flex-direction:column;gap:14px}
+#main-admin{display:none;flex-direction:column;gap:4px}
+
+/* SECRET ZONE */
+#secret-zone{position:fixed;bottom:0;left:0;width:60px;height:60px;z-index:299;opacity:0;cursor:default;-webkit-tap-highlight-color:transparent}
+
+/* OFFER MODAL */
+#offer-modal{display:none;position:fixed;inset:0;z-index:400;background:rgba(4,4,8,.86);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);align-items:flex-end;justify-content:center;padding:0}
+#offer-modal.open{display:flex;animation:omFade .25s ease}
+@keyframes omFade{from{opacity:0}to{opacity:1}}
+@media(min-width:640px){#offer-modal{align-items:center;padding:32px 20px}}
+
+.om-card{position:relative;width:100%;max-width:460px;background:linear-gradient(180deg,#0E0E14 0%,#0a0a12 100%);border:1px solid #20202e;border-top:1px solid #2a2a3e;border-radius:18px 18px 0 0;overflow:hidden;animation:omSlide .42s cubic-bezier(.16,1,.3,1);box-shadow:0 -20px 60px rgba(0,0,0,.6)}
+@media(min-width:640px){.om-card{border-radius:14px;box-shadow:0 24px 80px rgba(0,0,0,.7)}}
+@keyframes omSlide{from{transform:translateY(100%);opacity:.4}to{transform:translateY(0);opacity:1}}
+
+.om-bar{height:3px;background:linear-gradient(90deg,transparent 0%,#F5A623 25%,#FFD700 50%,#F5A623 75%,transparent 100%)}
+
+.om-status{display:flex;align-items:center;gap:9px;padding:18px 22px 0;font-size:.66rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#8888a8}
+.om-status-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 12px rgba(34,197,94,.7);animation:pulse 1.6s infinite;flex-shrink:0}
+.om-status-divider{width:1px;height:11px;background:#2a2a3e}
+.om-status strong{color:#fff;font-weight:700;letter-spacing:1.4px}
+
+.om-body{padding:18px 22px 22px}
+.om-kicker{font-family:'Figtree',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:3.5px;color:#F5A623;text-transform:uppercase;margin-bottom:10px}
+.om-title{font-family:'Bebas Neue',cursive;font-size:2.05rem;line-height:.98;letter-spacing:.5px;margin-bottom:14px;color:#fff}
+.om-title em{color:#F5A623;font-style:normal}
+.om-sub{font-size:.86rem;line-height:1.62;color:#a8a8c0;margin-bottom:20px}
+.om-sub b{color:#e4e4f0;font-weight:600}
+
+.om-divider{height:1px;background:linear-gradient(90deg,transparent,#23233a 30%,#23233a 70%,transparent);margin-bottom:18px}
+
+.om-list{list-style:none;margin-bottom:24px;display:flex;flex-direction:column;gap:11px}
+.om-list li{display:flex;align-items:flex-start;gap:11px;font-size:.84rem;line-height:1.5;color:#d4d4e8}
+.om-check{width:18px;height:18px;background:rgba(34,197,94,.13);border:1px solid rgba(34,197,94,.42);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;color:#22C55E;font-size:.7rem;font-weight:900;line-height:1}
+
+.om-cta{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:linear-gradient(135deg,#25D366 0%,#1DA851 100%);color:#fff;font-family:'Figtree',sans-serif;font-weight:900;font-size:.98rem;letter-spacing:.3px;padding:17px 24px;border-radius:9px;text-decoration:none;border:none;cursor:pointer;box-shadow:0 8px 26px rgba(37,211,102,.28);transition:transform .15s,box-shadow .15s}
+.om-cta:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(37,211,102,.42)}
+.om-cta:active{transform:translateY(0)}
+.om-cta svg{flex-shrink:0}
+
+.om-caption{text-align:center;margin-top:14px;font-size:.74rem;color:#7A7A9A;line-height:1.55}
+.om-caption .om-count{color:#fff;font-weight:800;font-variant-numeric:tabular-nums;display:inline-block;min-width:1ch}
+.om-caption b{color:#22C55E;font-weight:700}
+
+.om-progress{height:2px;background:rgba(255,255,255,.04);margin:18px -22px -22px}
+.om-progress-fill{height:100%;background:linear-gradient(90deg,#F5A623,#FFD700);width:100%;transform-origin:left center;will-change:transform}
+#offer-modal.open .om-progress-fill{animation:omDrain 30s linear forwards}
+@keyframes omDrain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+.om-foot{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 22px;border-top:1px solid #18182a;font-size:.66rem;font-weight:600;letter-spacing:1.5px;color:#5a5a78;text-transform:uppercase;background:#08080d}
+.om-foot-tick{width:11px;height:11px;color:#F5A623;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- FLOATING BUTTON -->
+<a href="https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2" class="float-btn wa-link" target="_blank">
+  ⚡ Join The Free Training Now
+</a>
+
+<!-- SECRET ZONE & ADMIN -->
+<div id="secret-zone"></div>
+<div id="admin-panel">
+  <div class="admin-box">
+    <div id="pwd-screen">
+      <h3>Admin Access</h3>
+      <p>Enter your password to update the group link.</p>
+      <label>Password</label>
+      <input type="password" id="pwd-input" placeholder="Enter password">
+      <button class="admin-save" onclick="checkPwd()">Unlock</button>
+      <button class="admin-close" onclick="closeAdmin()">Cancel</button>
+      <div class="admin-status" id="pwd-status"></div>
+    </div>
+    <div id="main-admin">
+      <h3>Update Link</h3>
+      <p>Paste your new link. Updates <strong style="color:var(--green)">ALL devices</strong> instantly.</p>
+      <label>New Group Link</label>
+      <input type="url" id="wa-input" placeholder="https://...">
+      <input type="hidden" id="api-key-input">
+      <input type="hidden" id="bin-id-input">
+      <button class="admin-save" onclick="saveLink()">✓ Save & Update For Everyone</button>
+      <button class="admin-close" onclick="closeAdmin()">Close</button>
+      <div class="admin-status" id="save-status"></div>
+    </div>
+  </div>
+</div>
+
+<!-- OFFER MODAL -->
+<div id="offer-modal" role="dialog" aria-modal="true" aria-labelledby="om-title">
+  <div class="om-card">
+    <div class="om-bar"></div>
+
+    <div class="om-status">
+      <span class="om-status-dot"></span>
+      <span>Spot Reserved</span>
+      <span class="om-status-divider"></span>
+      <strong>Sunday · 8:00PM</strong>
+    </div>
+
+    <div class="om-body">
+      <div class="om-kicker">Wait —</div>
+      <h3 class="om-title" id="om-title">Your <em>Free Gift</em><br>Is Waiting Inside.</h3>
+      <p class="om-sub">Everything below is yours — <b>completely free</b> — the moment you join the group. No payment. No extra steps.</p>
+
+      <div class="om-divider"></div>
+
+      <ul class="om-list">
+        <li><span class="om-check">✓</span><span>The exact Selar digital product setup that's getting students their first customers — step by step</span></li>
+        <li><span class="om-check">✓</span><span>The exact signup link top earners use (not the public one)</span></li>
+        <li><span class="om-check">✓</span><span>Sunday training access + Mr. Stanley's full live results walkthrough</span></li>
+      </ul>
+
+      <a href="#" id="om-cta" class="om-cta" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488"/></svg>
+        Continue To WhatsApp
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+
+      <p class="om-caption">Auto-opening in <span class="om-count" id="om-count">30</span>s · Tap <b>"Join Group"</b> when WhatsApp opens</p>
+
+      <div class="om-progress"><div class="om-progress-fill"></div></div>
+    </div>
+
+    <div class="om-foot">
+      <svg class="om-foot-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+      EEM26 · Verified Setup
+    </div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-inner">
+    ⚡ FREE TRAINING THIS SUNDAY 8:00PM &nbsp;•&nbsp; EEM26 — AI-POWERED SELAR SYSTEM &nbsp;•&nbsp; REAL STUDENTS. REAL RESULTS. REAL SALES. &nbsp;•&nbsp; NO REPLAY — ONE NIGHT ONLY &nbsp;&nbsp;&nbsp;&nbsp;
+    ⚡ FREE TRAINING THIS SUNDAY 8:00PM &nbsp;•&nbsp; EEM26 — AI-POWERED SELAR SYSTEM &nbsp;•&nbsp; REAL STUDENTS. REAL RESULTS. REAL SALES. &nbsp;•&nbsp; NO REPLAY — ONE NIGHT ONLY &nbsp;&nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" id="nav-logo">EEM26</div>
+  <a href="https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2" class="nav-cta wa-link" target="_blank">
+    ⚡ Secure Your Free Spot
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-glow"></div>
+  <div class="live-badge">
+    <span class="live-dot"></span>
+    Free Training — This Sunday Only
+  </div>
+  <h1>
+    These Are
+    <em>Real Students.</em>
+    <span>Real Results.</span>
+  </h1>
+  <p class="hero-sub">Every screenshot you're about to see is from an EEM26 student. People who had zero experience, joined the training, and built a real digital product business on Selar — powered by AI.</p>
+
+  <div class="stats-row">
+    <div class="stat-pill reveal">
+      <strong>500+</strong>
+      <span>Students Trained</span>
+    </div>
+    <div class="stat-pill reveal">
+      <strong>8+</strong>
+      <span>Currencies Earned</span>
+    </div>
+    <div class="stat-pill reveal">
+      <strong>100%</strong>
+      <span>Free Training</span>
+    </div>
+    <div class="stat-pill reveal">
+      <strong>1 Night</strong>
+      <span>No Replay</span>
+    </div>
+  </div>
+
+  <a href="https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2" class="cta-btn wa-link" target="_blank">
+    ⚡ Yes — Show Me How They Did It
+  </a>
+  <p class="cta-note">100% Free &nbsp;•&nbsp; This Sunday &nbsp;•&nbsp; 8:00PM</p>
+</section>
+
+<!-- DATE URGENCY BAR -->
+<div class="slots-bar">
+  <div class="slots-inner">
+    <div class="slots-label">⚠️ This Sunday Only — No Replay</div>
+    <div class="slots-track-wrap">
+      <div class="slots-track">
+        <div class="slots-fill"></div>
+      </div>
+      <span class="slots-pct">Closing Soon</span>
+    </div>
+    <div class="slots-count">Training goes live <strong>This Sunday</strong> at 8:00PM</div>
+    <div class="slots-sub">Once training begins, the group locks. No replay. No second chance. If you're not inside before 8:00PM Sunday — you miss it completely.</div>
+  </div>
+</div>
+
+<!-- PROOF SECTION — STUDENT DASHBOARDS -->
+<section class="proof-strip">
+  <div class="proof-inner">
+    <div class="section-tag reveal">Student Results</div>
+    <div class="divider reveal"></div>
+    <h2 class="section-title reveal">Here's What <span>Their Dashboards</span> Look Like</h2>
+    <p class="reveal" style="color:var(--muted);font-size:.9rem;margin-bottom:36px;line-height:1.6">These are not promises. These are Selar dashboards from real EEM26 students — screenshots they sent me after following the exact system I'll show you this Sunday.</p>
+
+    <!-- PROOF CARD 1 — Halima -->
+    <div class="proof-card reveal">
+      <div class="proof-card-header">
+        <div class="student-avatar" style="background:rgba(245,166,35,.15);color:var(--gold)">HS</div>
+        <div class="student-info">
+          <h4>Halima Sada</h4>
+          <span>📍 Kano State &nbsp;•&nbsp; Joined EEM26 via Facebook Ad</span>
+        </div>
+      </div>
+      <div class="proof-card-body">
+        <p class="story-text">Halima sent me a message three weeks after joining the training. She said she almost didn't click the ad. She had seen so many courses online that promised results and delivered nothing. But something felt different about EEM26. She joined, set up the system step by step, and by the end of week three she had made her first real sales — money she earned herself, from a digital product she built with EEM26. Her exact words: <em style="color:var(--gold)">"I just wanted you to see what your training did for me."</em></p>
+        <div class="proof-img-wrap">
+          <img src="https://raw.githubusercontent.com/Ecosystemexpantion/Image/main/Screenshot_20260407_062937_Facebook.jpg" alt="Halima Sada Selar wallet" loading="lazy">
+          <img src="https://raw.githubusercontent.com/Ecosystemexpantion/Image/main/Screenshot_20260407_062945_Facebook.jpg" alt="Halima Sada total earnings" loading="lazy">
+        </div>
+      </div>
+      <div class="proof-card-footer">✅ Verified Selar Dashboard &nbsp;•&nbsp; Sent directly to EEM26</div>
+    </div>
+
+    <!-- PROOF CARD 2 — Emmanuel -->
+    <div class="proof-card reveal">
+      <div class="proof-card-header">
+        <div class="student-avatar" style="background:rgba(108,99,255,.15);color:var(--accent)">EB</div>
+        <div class="student-info">
+          <h4>Emmanuel Chukwuemeka Biachi</h4>
+          <span>📍 Ibadan &nbsp;•&nbsp; Saw the EEM26 ad on Facebook, reached out immediately</span>
+        </div>
+      </div>
+      <div class="proof-card-body">
+        <p class="story-text">Emmanuel had been trying to make money online for over a year before he found EEM26. He'd bought courses that gave him theory but no real steps. When he joined the EEM26 training, he followed the system exactly as taught. He didn't skip anything, didn't rush. Within his first month he had sales coming in from multiple countries — NGN, XAF, GHS. He sent me this dashboard screenshot with just one message: <em style="color:var(--gold)">"This actually works."</em></p>
+        <div class="proof-img-wrap">
+          <img src="https://raw.githubusercontent.com/Ecosystemexpantion/Image/main/Screenshot_20260407_062929_Facebook.jpg" alt="Emmanuel Selar wallet" loading="lazy">
+          <img src="https://raw.githubusercontent.com/Ecosystemexpantion/Image/main/Screenshot_20260407_062921_Facebook.jpg" alt="Emmanuel total earnings" loading="lazy">
+        </div>
+      </div>
+      <div class="proof-card-footer">✅ Verified Selar Dashboard &nbsp;•&nbsp; Sent directly to EEM26</div>
+    </div>
+
+    <!-- PROOF CARD 3 — Samuel -->
+    <div class="proof-card reveal">
+      <div class="proof-card-header">
+        <div class="student-avatar" style="background:rgba(34,197,94,.12);color:var(--green)">SO</div>
+        <div class="student-info">
+          <h4>Samuel Oluranti</h4>
+          <span>📍 Ilorin &nbsp;•&nbsp; Reached out after seeing EEM26 results shared in a group</span>
+        </div>
+      </div>
+      <div class="proof-card-body">
+        <p class="story-text">Samuel was skeptical. He told me that himself. He said he had seen too many people online making fake income claims. But what got him was seeing the live training session — 114 people in a room, students sharing real dashboards with earnings in multiple currencies. He decided to trust the process. What happened next surprised even him — sales in NGN, GHS, KES and XAF, all from one setup he built in a single weekend.</p>
+        <div class="proof-img-wrap">
+          <img src="https://raw.githubusercontent.com/Ecosystemexpantion/Image/main/Screenshot_20260407_062913_Facebook.jpg" alt="Samuel Selar wallet" loading="lazy">
+          <img src="https://raw.githubusercontent.com/Ecosystemexpantion/Image/main/Screenshot_20260405_154148_Chrome%20Beta.jpg" alt="Samuel total earnings" loading="lazy">
+        </div>
+      </div>
+      <div class="proof-card-footer">✅ Verified Selar Dashboard &nbsp;•&nbsp; Sent directly to EEM26</div>
+    </div>
+
+    <!-- PROOF CARD 4 — Ahmad — Affiliate -->
+    <div class="proof-card reveal">
+      <div class="proof-card-header">
+        <div class="student-avatar" style="background:rgba(245,166,35,.12);color:var(--gold2)">AN</div>
+        <div class="student-info">
+          <h4>Ahmad Nasir</h4>
+          <span>📍 Kaduna &nbsp;•&nbsp; Found EEM26 through a friend who was already earning</span>
+        </div>
+      </div>
+      <div class="proof-card-body">
+        <p class="story-text">Ahmad joined EEM26 and focused on the affiliate side of the system. While most people were just starting to figure things out, Ahmad was already generating affiliate sales in multiple currencies. Consistent sales in NGN, XAF, and GHS — stacked on top of each other. All from a system he set up following the EEM26 training — step by step, no shortcuts skipped. He built his digital product business faster than almost anyone else in the group.</p>
+        <div class="proof-img-wrap">
+          <img src="https://raw.githubusercontent.com/Ecosystemexpantion/Image/main/IMG-20260402-WA0000.jpg" alt="Ahmad affiliate earnings" loading="lazy">
+          <img src="https://raw.githubusercontent.com/Ecosystemexpantion/Image/main/Screenshot_20260406_120038_Chrome%20Beta.jpg" alt="Ahmad total sales" loading="lazy">
+        </div>
+      </div>
+      <div class="proof-card-footer">✅ Verified Selar Affiliate Dashboard &nbsp;•&nbsp; Sent directly to EEM26</div>
+    </div>
+
+    <div style="text-align:center;margin-top:36px">
+      <a href="https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2" class="cta-btn wa-link" target="_blank">
+        ⚡ I Want This Too — Show Me How
+      </a>
+      <p class="cta-note" style="margin-top:10px">Free training this Sunday &nbsp;•&nbsp; 8:00PM &nbsp;•&nbsp; No replay</p>
+    </div>
+  </div>
+</section>
+
+<!-- TWO VIDEOS -->
+<div class="video-section">
+  <div class="section-tag reveal">Watch It Happen Live</div>
+  <div class="divider reveal"></div>
+  <h2 class="section-title reveal" style="margin-bottom:28px">This Is Not <span>Theory</span></h2>
+
+  <!-- Video 1 — John Adi -->
+  <div class="video-card reveal">
+    <div class="video-caption-top">
+      <div class="caption-label">🎓 Week 1 Student Result</div>
+      <h3>This is me guiding John Adi live — and this happened in his very first week</h3>
+      <p>John had never sold anything online before. Watch what happened when he followed the EEM26 system from day one — the results came faster than even he expected.</p>
+    </div>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/hV3i4sofHU8" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- Video 2 — Mr Stanley -->
+  <div class="video-card reveal">
+    <div class="video-caption-top">
+      <div class="caption-label">💰 3-Month Transformation — Live Proof</div>
+      <h3>Oguji Excel Stanley (Mr. Stanley) — His 3-month digital product results, revealed live on screen</h3>
+      <p>This wasn't staged. This wasn't edited. Mr. Stanley joined EEM26, followed the system for 3 months, and showed his Selar results live — in front of 114 people watching in real time. The room went silent. Nobody expected the numbers they saw on that screen.</p>
+    </div>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/FM6j3ZunRFw" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="testi-inner">
+    <div class="section-tag reveal">What Students Say</div>
+    <div class="divider reveal"></div>
+    <h2 class="section-title reveal">In Their <span>Own Words</span></h2>
+    <div class="testi-grid">
+
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">I joined EEM26 not knowing what to expect. Within a few weeks I had my Selar setup running and started making sales. I got my first customers faster than I thought possible. I didn't believe it was this simple until I tried it myself.</p>
+        <div class="testi-footer">
+          <div class="testi-avatar" style="background:rgba(245,166,35,.15);color:var(--gold)">HS</div>
+          <div>
+            <div class="testi-name">Halima Sada</div>
+            <div class="testi-meta">Kano State &nbsp;•&nbsp; EEM26 Student</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Honestly this system changed things for me. I followed the steps from the EEM26 training and started seeing results. The way everything is broken down, anyone can follow it.</p>
+        <div class="testi-footer">
+          <div class="testi-avatar" style="background:rgba(108,99,255,.15);color:var(--accent)">EB</div>
+          <div>
+            <div class="testi-name">Emmanuel Chukwuemeka Biachi</div>
+            <div class="testi-meta">Ibadan &nbsp;•&nbsp; EEM26 Student</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">I was skeptical at first but the live session convinced me. Seeing Mr. Stanley reveal his Selar results live during the training — in front of everyone — that was all the proof I needed. I joined immediately after.</p>
+        <div class="testi-footer">
+          <div class="testi-avatar" style="background:rgba(34,197,94,.12);color:var(--green)">AN</div>
+          <div>
+            <div class="testi-name">Ahmad Nasir</div>
+            <div class="testi-meta">Kaduna &nbsp;•&nbsp; EEM26 Student</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">The training showed us live earnings in NGN, XAF, KES and GHS — all from one system. I never believed one setup could earn across multiple currencies until I saw it with my own eyes. Now I'm living proof it does.</p>
+        <div class="testi-footer">
+          <div class="testi-avatar" style="background:rgba(245,166,35,.12);color:var(--gold2)">SO</div>
+          <div>
+            <div class="testi-name">Samuel Oluranti</div>
+            <div class="testi-meta">Ilorin &nbsp;•&nbsp; EEM26 Student</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU'LL LEARN -->
+<section class="section">
+  <div class="section-tag reveal">Inside The Free Training</div>
+  <div class="divider reveal"></div>
+  <h2 class="section-title reveal">What You'll <span>Learn This Sunday</span></h2>
+  <ul class="learn-list">
+    <li><span class="check-icon">✓</span>The exact Selar system that helped students start making consistent sales — shown live, step by step</li>
+    <li><span class="check-icon">✓</span>The AI tools that handle your marketing and keep your digital product business running around the clock</li>
+    <li><span class="check-icon">✓</span>How to set up the entire system from zero — no experience, no following required</li>
+    <li><span class="check-icon">✓</span>Why this system earns in NGN, GHS, KES, XAF and more — from one setup</li>
+    <li><span class="check-icon">✓</span>The live breakdown of the full EEM26 setup so you can copy it the same night</li>
+    <li><span class="check-icon">✓</span>Why students who had tried other methods are finally seeing real results with this</li>
+  </ul>
+</section>
+
+<!-- WHO IS THIS FOR -->
+<section class="section" style="padding-top:0">
+  <div class="section-tag reveal">Is This For You?</div>
+  <div class="divider reveal"></div>
+  <h2 class="section-title reveal" style="text-align:center">This Training Is <span>For You If...</span></h2>
+  <div class="for-grid">
+    <div class="for-card reveal"><span class="ic">💸</span>You want to build a real online business but have never found a system that actually works</div>
+    <div class="for-card reveal"><span class="ic">😤</span>You've tried other methods and got nothing but frustration and wasted money</div>
+    <div class="for-card reveal"><span class="ic">🤖</span>You want AI doing the heavy lifting while you focus on building your digital product business</div>
+    <div class="for-card reveal"><span class="ic">🌍</span>You want a system that sells across multiple African currencies automatically</div>
+    <div class="for-card reveal"><span class="ic">🇳🇬</span>You're ready to build a real digital product business and start getting consistent customers</div>
+    <div class="for-card reveal"><span class="ic">🎯</span>You're done watching others win and you're ready to take your own step</div>
+  </div>
+</section>
+
+<!-- URGENCY -->
+<div class="urgency-bar">
+  <p>⚠️ <span>THIS SUNDAY ONLY</span> — No Replay. Miss It Sunday, Miss It Forever. ⚠️</p>
+</div>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="live-badge" style="margin-bottom:24px">
+    <span class="live-dot"></span>
+    This Sunday &nbsp;•&nbsp; 8:00PM &nbsp;•&nbsp; Free
+  </div>
+  <h2>You've Seen The Proof.<br><span>Now Secure Your Spot.</span></h2>
+  <p class="final-sub">The students you saw above were sitting exactly where you are right now — reading, wondering if this is real. They joined. You've seen what happened. The only question is: what will you do?</p>
+  <a href="https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2" class="cta-btn wa-link" target="_blank">
+    ⚡ Yes — I'm Joining The Free Training
+  </a>
+  <p class="cta-note" style="margin-top:14px">Secure your spot now &nbsp;•&nbsp; Training starts this Sunday 8:00PM &nbsp;•&nbsp; No replay</p>
+</section>
+
+<footer>© 2026 EEM26 — Ecosystem Expansion Model &nbsp;|&nbsp; All Rights Reserved</footer>
+
+<script>
+// ── CONFIG ──
+const DEFAULT_LINK = "https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2";
+const ADMIN_PWD    = "sdda2025";
+const LS_LINK      = "eem26_wa_link";
+const LS_APIKEY    = "eem26_api_key";
+const LS_BINID     = "eem26_bin_id";
+const PRESET_KEY   = "$2a$10$edXc0zx0cgn/01mitwUF1OppwFrprv8ChOsWTpAHfM/rkyxtyeUe.";
+const PRESET_BIN   = "69ecb7ee36566621a8ee1e12";
+localStorage.setItem(LS_APIKEY, PRESET_KEY);
+localStorage.setItem(LS_BINID,  PRESET_BIN);
+
+// ── FETCH LINK FROM CLOUD OR FALLBACK ──
+async function getLink(){
+  const apiKey = localStorage.getItem(LS_APIKEY) || PRESET_KEY;
+  const binId  = localStorage.getItem(LS_BINID)  || PRESET_BIN;
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`,{
+      headers:{"X-Master-Key":apiKey,"X-Bin-Meta":"false"}
+    });
+    const data = await res.json();
+    if(data.waLink){ localStorage.setItem(LS_LINK,data.waLink); return data.waLink; }
+  } catch(e){}
+  return localStorage.getItem(LS_LINK) || DEFAULT_LINK;
+}
+
+// ── APPLY LINK TO ALL BUTTONS ──
+function setButtons(link){
+  document.querySelectorAll(".wa-link").forEach(el => el.href = link);
+  const inp = document.getElementById("wa-input");
+  if(inp) inp.value = link;
+}
+
+async function applyLink(){
+  const instant = localStorage.getItem(LS_LINK) || DEFAULT_LINK;
+  setButtons(instant);
+  try {
+    const cloudLink = await getLink();
+    if(cloudLink && cloudLink !== instant) setButtons(cloudLink);
+  } catch(e){}
+}
+
+// ── ADMIN ──
+function openAdmin(){
+  document.getElementById("admin-panel").classList.add("open");
+  document.getElementById("pwd-screen").style.display = "flex";
+  document.getElementById("main-admin").style.display  = "none";
+  document.getElementById("pwd-status").textContent    = "";
+  document.getElementById("pwd-input").value           = "";
+  setTimeout(()=>document.getElementById("pwd-input").focus(),100);
+}
+function closeAdmin(){ document.getElementById("admin-panel").classList.remove("open"); }
+
+function checkPwd(){
+  const val = document.getElementById("pwd-input").value;
+  if(val === ADMIN_PWD){
+    document.getElementById("pwd-screen").style.display = "none";
+    document.getElementById("main-admin").style.display = "flex";
+    const sk = localStorage.getItem(LS_APIKEY);
+    const sb = localStorage.getItem(LS_BINID);
+    if(sk) document.getElementById("api-key-input").value = sk;
+    if(sb) document.getElementById("bin-id-input").value  = sb;
+    getLink().then(l => { document.getElementById("wa-input").value = l; });
+    setTimeout(()=>document.getElementById("wa-input").focus(),100);
+  } else {
+    document.getElementById("pwd-status").textContent = "❌ Incorrect password";
+    document.getElementById("pwd-status").style.color = "#ff4444";
+  }
+}
+
+async function saveLink(){
+  const val    = document.getElementById("wa-input").value.trim();
+  const apiKey = document.getElementById("api-key-input").value.trim();
+  const binId  = document.getElementById("bin-id-input").value.trim();
+  if(!val.startsWith("http")){
+    document.getElementById("save-status").textContent = "❌ Please enter a valid link";
+    document.getElementById("save-status").style.color = "#ff4444";
+    return;
+  }
+  if(apiKey) localStorage.setItem(LS_APIKEY,apiKey);
+  if(binId)  localStorage.setItem(LS_BINID,binId);
+  const storedKey = apiKey || localStorage.getItem(LS_APIKEY) || PRESET_KEY;
+  const storedBin = binId  || localStorage.getItem(LS_BINID)  || PRESET_BIN;
+  if(storedKey && storedBin){
+    document.getElementById("save-status").textContent = "Updating for all devices...";
+    document.getElementById("save-status").style.color = "#aaa";
+    try {
+      const res = await fetch(`https://api.jsonbin.io/v3/b/${storedBin}`,{
+        method:"PUT",
+        headers:{"Content-Type":"application/json","X-Master-Key":storedKey},
+        body: JSON.stringify({waLink:val})
+      });
+      if(res.ok){
+        localStorage.setItem(LS_LINK,val);
+        setButtons(val);
+        document.getElementById("save-status").textContent = "✓ Updated for ALL devices instantly!";
+        document.getElementById("save-status").style.color = "#22C55E";
+        setTimeout(closeAdmin,1800);
+        return;
+      }
+    } catch(e){}
+    document.getElementById("save-status").textContent = "❌ Cloud save failed";
+    document.getElementById("save-status").style.color = "#ff4444";
+  } else {
+    localStorage.setItem(LS_LINK,val);
+    setButtons(val);
+    document.getElementById("save-status").textContent = "⚠ Saved on this device only.";
+    document.getElementById("save-status").style.color = "#F5A623";
+    setTimeout(closeAdmin,2200);
+  }
+}
+
+// ── SECRET ADMIN TRIGGERS ──
+document.addEventListener("keydown",function(e){
+  if(e.ctrlKey && e.shiftKey && e.key==="A"){ e.preventDefault(); openAdmin(); }
+});
+let tapCount=0,tapTimer=null;
+document.getElementById("secret-zone").addEventListener("touchstart",function(e){
+  e.preventDefault();
+  tapCount++;
+  if(tapTimer) clearTimeout(tapTimer);
+  tapTimer = setTimeout(()=>{ tapCount=0; },3000);
+  if(tapCount>=5){ tapCount=0; clearTimeout(tapTimer); openAdmin(); }
+},{passive:false});
+document.getElementById("admin-panel").addEventListener("click",function(e){
+  if(e.target===this) closeAdmin();
+});
+document.getElementById("pwd-input").addEventListener("keydown",e=>{
+  if(e.key==="Enter") checkPwd();
+});
+
+// ── SCROLL REVEAL ──
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+},{threshold:.08});
+document.querySelectorAll('.reveal,.learn-list li,.for-card').forEach(el=>obs.observe(el));
+
+// ── OFFER MODAL — INTERCEPT WA-LINK, SHOW GIFT POPUP, AUTO-REDIRECT IN 30s ──
+const OFFER_DURATION = 30000;
+let offerTimeoutId = null;
+let offerCountId   = null;
+
+function openOfferModal(link){
+  const modal = document.getElementById('offer-modal');
+  const cta   = document.getElementById('om-cta');
+  const count = document.getElementById('om-count');
+  if(!modal || !cta || !count) { window.location.href = link; return; }
+
+  cta.setAttribute('href', link);
+  count.textContent = '30';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  let s = 30;
+  offerCountId = setInterval(()=>{
+    s--;
+    if(s >= 0) count.textContent = s;
+    if(s <= 0) clearInterval(offerCountId);
+  }, 1000);
+
+  offerTimeoutId = setTimeout(()=>{
+    clearInterval(offerCountId);
+    window.location.href = link;
+  }, OFFER_DURATION);
+}
+
+function clearOfferTimers(){
+  if(offerTimeoutId){ clearTimeout(offerTimeoutId); offerTimeoutId = null; }
+  if(offerCountId){ clearInterval(offerCountId); offerCountId = null; }
+}
+
+// Manual click on the popup CTA — let target=_blank navigate, just stop the auto-timer
+document.getElementById('om-cta').addEventListener('click', clearOfferTimers);
+
+// Intercept every WhatsApp button click — fire pixel, then show offer
+document.querySelectorAll('.wa-link').forEach(el=>{
+  el.addEventListener('click',function(e){
+    e.preventDefault();
+    try{
+      fbq('track','Lead');
+      fbq('track','Purchase',{value:0,currency:'NGN'});
+    }catch(err){}
+    openOfferModal(this.href);
+  });
+});
+
+// ── INIT ──
+applyLink();
+</script>
+</body>
+</html>

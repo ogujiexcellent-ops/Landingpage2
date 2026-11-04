@@ -287,11 +287,14 @@ footer{background:#000;text-align:center;padding:18px;font-size:.7rem;color:#333
     </div>
     <div id="main-admin">
       <h3>Update Link</h3>
-      <p>Paste your new link. Updates <strong style="color:var(--green)">ALL devices</strong> instantly.</p>
+      <p>Paste your new link. Updates <strong style="color:var(--green)">ALL devices</strong> within about a minute.</p>
       <label>New Group Link</label>
       <input type="url" id="wa-input" placeholder="https://...">
-      <input type="hidden" id="api-key-input">
-      <input type="hidden" id="bin-id-input">
+      <div id="token-box">
+        <label>GitHub Token (one-time setup)</label>
+        <input type="password" id="gh-token-input" placeholder="github_pat_..." autocomplete="off">
+      </div>
+      <button class="admin-close" id="token-change" style="display:none;margin-top:-8px" onclick="showTokenBox()">Change GitHub token</button>
       <button class="admin-save" onclick="saveLink()">✓ Save & Update For Everyone</button>
       <button class="admin-close" onclick="closeAdmin()">Close</button>
       <div class="admin-status" id="save-status"></div>
@@ -653,23 +656,18 @@ footer{background:#000;text-align:center;padding:18px;font-size:.7rem;color:#333
 const DEFAULT_LINK = "https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2";
 const ADMIN_PWD    = "sdda2025";
 const LS_LINK      = "eem26_wa_link";
-const LS_APIKEY    = "eem26_api_key";
-const LS_BINID     = "eem26_bin_id";
-const PRESET_KEY   = "$2a$10$kbzjNbzS6mPvdEfUxj7xQ.hPKE2Tm1nYp.Jgcj.33kyp5rlEiMuom";
-const PRESET_BIN   = "6a2d7163f5f4af5e29ebf2ff";
-localStorage.setItem(LS_APIKEY, PRESET_KEY);
-localStorage.setItem(LS_BINID,  PRESET_BIN);
+const LS_GHTOKEN   = "eem26_gh_token";
+const GH_REPO      = "ogujiexcellent-ops/Landingpage2";
+const GH_FILE      = "link.json";
 
-// ── FETCH LINK FROM CLOUD OR FALLBACK ──
+// ── FETCH LINK FROM link.json (same site, no request limits) OR FALLBACK ──
 async function getLink(){
-  const apiKey = localStorage.getItem(LS_APIKEY) || PRESET_KEY;
-  const binId  = localStorage.getItem(LS_BINID)  || PRESET_BIN;
   try {
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`,{
-      headers:{"X-Master-Key":apiKey,"X-Bin-Meta":"false"}
-    });
-    const data = await res.json();
-    if(data.waLink){ localStorage.setItem(LS_LINK,data.waLink); return data.waLink; }
+    const res = await fetch(GH_FILE + "?t=" + Date.now(), {cache:"no-store"});
+    if(res.ok){
+      const data = await res.json();
+      if(data.waLink){ localStorage.setItem(LS_LINK,data.waLink); return data.waLink; }
+    }
   } catch(e){}
   return localStorage.getItem(LS_LINK) || DEFAULT_LINK;
 }
@@ -701,15 +699,21 @@ function openAdmin(){
 }
 function closeAdmin(){ document.getElementById("admin-panel").classList.remove("open"); }
 
+function showTokenBox(){
+  document.getElementById("token-box").style.display = "block";
+  document.getElementById("token-change").style.display = "none";
+  document.getElementById("gh-token-input").value = "";
+}
+
 function checkPwd(){
   const val = document.getElementById("pwd-input").value;
   if(val === ADMIN_PWD){
     document.getElementById("pwd-screen").style.display = "none";
     document.getElementById("main-admin").style.display = "flex";
-    const sk = localStorage.getItem(LS_APIKEY);
-    const sb = localStorage.getItem(LS_BINID);
-    if(sk) document.getElementById("api-key-input").value = sk;
-    if(sb) document.getElementById("bin-id-input").value  = sb;
+    document.getElementById("save-status").textContent = "";
+    const hasToken = !!localStorage.getItem(LS_GHTOKEN);
+    document.getElementById("token-box").style.display    = hasToken ? "none" : "block";
+    document.getElementById("token-change").style.display = hasToken ? "block" : "none";
     getLink().then(l => { document.getElementById("wa-input").value = l; });
     setTimeout(()=>document.getElementById("wa-input").focus(),100);
   } else {
@@ -718,55 +722,60 @@ function checkPwd(){
   }
 }
 
+function setStatus(msg, color){
+  const s = document.getElementById("save-status");
+  s.textContent = msg; s.style.color = color;
+}
+
 async function saveLink(){
-  const val    = document.getElementById("wa-input").value.trim();
-  const apiKey = document.getElementById("api-key-input").value.trim();
-  const binId  = document.getElementById("bin-id-input").value.trim();
-  if(!val.startsWith("http")){
-    document.getElementById("save-status").textContent = "❌ Please enter a valid link";
-    document.getElementById("save-status").style.color = "#ff4444";
-    return;
-  }
-  if(apiKey) localStorage.setItem(LS_APIKEY,apiKey);
-  if(binId)  localStorage.setItem(LS_BINID,binId);
-  const storedKey = apiKey || localStorage.getItem(LS_APIKEY) || PRESET_KEY;
-  const storedBin = binId  || localStorage.getItem(LS_BINID)  || PRESET_BIN;
-  if(storedKey && storedBin){
-    document.getElementById("save-status").textContent = "Updating for all devices...";
-    document.getElementById("save-status").style.color = "#aaa";
-    try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${storedBin}`,{
-        method:"PUT",
-        headers:{"Content-Type":"application/json","X-Master-Key":storedKey},
-        body: JSON.stringify({waLink:val})
-      });
-      if(res.ok){
-        localStorage.setItem(LS_LINK,val);
-        setButtons(val);
-        document.getElementById("save-status").textContent = "✓ Updated for ALL devices instantly!";
-        document.getElementById("save-status").style.color = "#22C55E";
-        setTimeout(closeAdmin,1800);
-        return;
-      }
-      let reason = "HTTP " + res.status;
-      try { const err = await res.json(); if(err && err.message) reason += " – " + err.message; } catch(_){}
-      document.getElementById("save-status").textContent = "❌ Cloud save failed: " + reason;
-      document.getElementById("save-status").style.color = "#ff4444";
-      return;
-    } catch(e){
-      document.getElementById("save-status").textContent = "❌ Cloud save failed: network error (" + e.message + ")";
-      document.getElementById("save-status").style.color = "#ff4444";
-      return;
-    }
-    document.getElementById("save-status").textContent = "❌ Cloud save failed";
-    document.getElementById("save-status").style.color = "#ff4444";
-  } else {
-    localStorage.setItem(LS_LINK,val);
+  const val = document.getElementById("wa-input").value.trim();
+  if(!val.startsWith("http")){ setStatus("❌ Please enter a valid link", "#ff4444"); return; }
+
+  const typed = document.getElementById("gh-token-input").value.trim();
+  if(typed) localStorage.setItem(LS_GHTOKEN, typed);
+  const token = localStorage.getItem(LS_GHTOKEN);
+  if(!token){ setStatus("❌ Paste your GitHub token first (one-time setup)", "#ff4444"); return; }
+
+  setStatus("Updating for all devices...", "#aaa");
+  const api = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
+  const headers = {"Authorization":"Bearer " + token, "Accept":"application/vnd.github+json"};
+  try {
+    // Get current file version (needed to overwrite it)
+    let sha;
+    const cur = await fetch(api + "?ref=main&t=" + Date.now(), {headers, cache:"no-store"});
+    if(cur.ok){ sha = (await cur.json()).sha; }
+    else if(cur.status !== 404){ throw await ghError(cur); }
+
+    const body = {
+      message: "Update WhatsApp link",
+      content: btoa(JSON.stringify({waLink: val}, null, 2) + "\n"),
+      branch: "main"
+    };
+    if(sha) body.sha = sha;
+    const res = await fetch(api, {method:"PUT", headers:{...headers, "Content-Type":"application/json"}, body:JSON.stringify(body)});
+    if(!res.ok) throw await ghError(res);
+
+    localStorage.setItem(LS_LINK, val);
     setButtons(val);
-    document.getElementById("save-status").textContent = "⚠ Saved on this device only.";
-    document.getElementById("save-status").style.color = "#F5A623";
-    setTimeout(closeAdmin,2200);
+    document.getElementById("token-box").style.display = "none";
+    document.getElementById("token-change").style.display = "block";
+    setStatus("✓ Saved! Live for ALL devices in about 1 minute.", "#22C55E");
+    setTimeout(closeAdmin, 2500);
+  } catch(e){
+    setStatus("❌ Save failed: " + e.message, "#ff4444");
   }
+}
+
+async function ghError(res){
+  if(res.status === 401){
+    localStorage.removeItem(LS_GHTOKEN);
+    showTokenBox();
+    return new Error("GitHub token is invalid or expired — paste a new one");
+  }
+  if(res.status === 403 || res.status === 404) return new Error("token doesn't have write access to Landingpage2 (HTTP " + res.status + ")");
+  let msg = "HTTP " + res.status;
+  try { const j = await res.json(); if(j.message) msg += " – " + j.message; } catch(_){}
+  return new Error(msg);
 }
 
 // ── SECRET ADMIN TRIGGERS ──

@@ -821,8 +821,16 @@ function clearOfferTimers(){
   if(offerCountId){ clearInterval(offerCountId); offerCountId = null; }
 }
 
-// Manual click on the popup CTA — let target=_blank navigate, just stop the auto-timer
-document.getElementById('om-cta').addEventListener('click', clearOfferTimers);
+// Manual click on the popup CTA — fire conversion events, then let target=_blank navigate
+document.getElementById('om-cta').addEventListener('click', function(){
+  clearOfferTimers();
+  try{
+    fbq('track','Lead');
+    fbq('track','Contact');
+    fbq('track','CompleteRegistration');
+    fbq('track','Purchase',{value:0,currency:'NGN'});
+  }catch(err){}
+});
 
 // Intercept every WhatsApp button click — fire pixel, then show offer
 document.querySelectorAll('.wa-link').forEach(el=>{
@@ -836,6 +844,55 @@ document.querySelectorAll('.wa-link').forEach(el=>{
       fbq('track','Purchase',{value:0,currency:'NGN'});
     }catch(err){}
     openOfferModal(this.href);
+  });
+});
+
+// ── COMPREHENSIVE ENGAGEMENT TRACKING ──
+function fbCustom(ev, params){ try{ params ? fbq('trackCustom',ev,params) : fbq('trackCustom',ev); }catch(e){} }
+
+// 1) Scroll-depth milestones (25 / 50 / 75 / 90%)
+(function(){
+  var fired = {};
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var max = (h.scrollHeight - h.clientHeight);
+    if(max <= 0) return;
+    var pct = (h.scrollTop || document.body.scrollTop) / max * 100;
+    [25,50,75,90].forEach(function(m){
+      if(pct >= m && !fired[m]){ fired[m] = 1; fbCustom('ScrollDepth',{percent:m}); }
+    });
+  }, {passive:true});
+})();
+
+// 2) Time-on-page milestones (15 / 30 / 60 / 120s)
+[15,30,60,120].forEach(function(sec){
+  setTimeout(function(){ fbCustom('TimeOnPage',{seconds:sec}); }, sec*1000);
+});
+
+// 3) Section & video views as they scroll into view
+(function(){
+  var seen = new WeakSet();
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !seen.has(e.target)){
+        seen.add(e.target);
+        var name = e.target.getAttribute('data-track') || e.target.id || e.target.className || e.target.tagName;
+        fbCustom('ViewSection',{section:String(name).slice(0,60)});
+        if(e.target.querySelector && e.target.querySelector('iframe,video')){
+          fbCustom('VideoView',{section:String(name).slice(0,60)});
+        }
+      }
+    });
+  },{threshold:.4});
+  document.querySelectorAll('section,[data-track]').forEach(function(el){ io.observe(el); });
+})();
+
+// 4) Any non-WhatsApp button / link click (catch-all engagement)
+document.querySelectorAll('a,button').forEach(function(el){
+  if(el.classList.contains('wa-link') || el.id === 'om-cta') return;
+  el.addEventListener('click', function(){
+    var label = (el.textContent || el.getAttribute('aria-label') || el.tagName).trim().slice(0,60);
+    fbCustom('ClickButton',{label:label});
   });
 });
 

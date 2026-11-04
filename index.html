@@ -748,7 +748,16 @@ async function saveLink(){
         setTimeout(closeAdmin,1800);
         return;
       }
-    } catch(e){}
+      let reason = "HTTP " + res.status;
+      try { const err = await res.json(); if(err && err.message) reason += " – " + err.message; } catch(_){}
+      document.getElementById("save-status").textContent = "❌ Cloud save failed: " + reason;
+      document.getElementById("save-status").style.color = "#ff4444";
+      return;
+    } catch(e){
+      document.getElementById("save-status").textContent = "❌ Cloud save failed: network error (" + e.message + ")";
+      document.getElementById("save-status").style.color = "#ff4444";
+      return;
+    }
     document.getElementById("save-status").textContent = "❌ Cloud save failed";
     document.getElementById("save-status").style.color = "#ff4444";
   } else {
